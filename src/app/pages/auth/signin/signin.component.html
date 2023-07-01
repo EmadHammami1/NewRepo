@@ -1,0 +1,54 @@
+<app-header title="Login" backLink="/auth/home" [back]="true"></app-header>
+<app-loader *ngIf="pageLoading"></app-loader>
+
+<ion-content>
+    <form [formGroup]="form">
+      <ion-list class="mx-3">
+        <ion-item class="my-3">
+          <ion-input formControlName="email" placeholder="E-mail"></ion-input>
+        </ion-item>
+        <div class="w-100 text-danger mt-1" *ngIf="validationErrors['email']">
+          <span *ngFor="let error of validationErrors['email']">{{ error }}</span>
+        </div>
+        <ion-item class="my-3">
+          <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+        </ion-item>
+        <div class="w-100 text-danger mt-1" *ngIf="validationErrors['password']">
+          <span *ngFor="let error of validationErrors['password']">{{ error }}</span>
+        </div>
+        <ion-button
+          expand="block"
+          color="primary"
+          class="w-100"
+          (click)="submit()"
+        >
+          Login
+        </ion-button>
+      </ion-list>
+    </form>
+    <div class="px-4 mt-5 pt-5">
+      <img src="./../../../../assets/images/svgs/login.svg" alt="">
+    </div>
+</ion-content>
+<ion-footer class="px-3">
+  <ion-button
+    expand="block"
+    color="primary"
+    fill="outline"
+    size="small"
+    class="mt-4"
+    routerLink="/auth/signup"
+  >
+    Register
+  </ion-button>
+  <ion-button
+    expand="block"
+    fill="clear"
+    color="primary"
+    class="w-100"
+    routerLink="/auth"
+  >
+    <div class="fas fa-chevron-left mr-3"></div>
+    Back
+  </ion-button>
+</ion-footer>

@@ -1,0 +1,168 @@
+<app-header
+  [menu]="myProfile"
+  [back]="!myProfile"
+  [title]=" !user ? 'Profile' :  (myProfile ? 'My Profile' : user.fullName)"
+>
+  <div id="end-buttons" *ngIf="user">
+    <ion-button shape="round" *ngIf="myProfile" routerLink="/tabs/profile/form">
+      <i class="fas fa-pen"></i>
+    </ion-button>
+    <ion-button shape="round" *ngIf="myProfile" routerLink="/tabs/profile/settings">
+      <i class="fas fa-cog"></i>
+    </ion-button>
+    <ion-button *ngIf="!myProfile" (click)="request()" shape="round">
+      <span *ngIf="user.friend"><i class="text-success fas fa-user-minus"></i></span>
+      <span *ngIf="!user.friend">
+        <span *ngIf="user.request == null"><i class="fas fa-user-plus"></i></span>
+        <span *ngIf="user.request == 'requested'"><i class="text-info fas fa-user-times"></i></span>
+        <span *ngIf="user.request == 'requesting'"><i class="text-warning fas fa-user-check"></i></span>
+      </span>
+    </ion-button>
+    <ion-button *ngIf="!myProfile" (click)="videoCall()" shape="round">
+      <i class="fas fa-video"></i>
+    </ion-button>
+    <ion-button *ngIf="!myProfile" (click)="follow()" shape="round">
+      <span [class.text-warning]="user.followed">
+        <i  class="fas fa-star"></i>
+      </span>
+    </ion-button>
+    <ion-button (click)="presentPopover($event)" *ngIf="!myProfile" shape="round">
+      <i class="fas fa-ellipsis-v"></i>
+    </ion-button>
+  </div>
+</app-header>
+
+<ion-content>
+
+  <app-loader *ngIf="pageLoading"></app-loader>
+
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="user && !pageLoading">
+    <div class="w-100 image-container" *ngIf="user">
+
+      <app-img-loader
+        [src]="user.avatar"
+      >
+      </app-img-loader>
+
+        <span class="user-info p-1 pl-2">
+            <span class="d-block user-name">{{ user.fullName }}{{ (user.age ? (', ' + user.age) : '') }}</span>
+            <span class="d-block">{{ user.country }}, {{ user.city }}</span>
+        </span>
+
+        <ion-fab *ngIf="myProfile" horizontal="end" vertical="bottom" >
+            <ion-fab-button color="primary">
+                <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="top">
+                <ion-fab-button (click)="selectPicture()">
+                    <ion-icon name="images"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button (click)="takePicture()">
+                    <ion-icon name="camera"></ion-icon>
+                </ion-fab-button>
+            </ion-fab-list>
+        </ion-fab>
+
+        <ion-fab [routerLink]="['/messages/chat/' + user.id]" *ngIf="!myProfile" horizontal="end" vertical="bottom" >
+            <ion-fab-button color="secondary">
+              <i class="fas fa-comments"></i>
+            </ion-fab-button>
+        </ion-fab>
+    </div>
+  </div>
+
+  <div class="p-3" *ngIf="user && !pageLoading">
+      <ion-text color="primary"><i class="fas fa-info-circle mr-2"></i> Basic information</ion-text>
+      <ion-list class="ml-3">
+          <ion-item class="d-flex" lines="none">
+              <ion-label >
+                  <ion-text class="d-block">Full Name</ion-text>
+                  <ion-text class="d-block">{{ user.fullName }}</ion-text>
+              </ion-label>
+              <ion-icon name="person" size="default" slot="start"></ion-icon>
+          </ion-item>
+
+          <ion-item lines="none">
+              <ion-label>
+                  <ion-text class="d-block">Gender</ion-text>
+                  <ion-text class="d-block text-capitalize">{{ user.gender }}</ion-text>
+              </ion-label>
+              <ion-icon [name]="user.gender || 'male'" size="default" slot="start"></ion-icon>
+          </ion-item>
+
+          <ion-item lines="none" *ngIf="user.age">
+              <i class="fas fa-birthday-cake font-icon"></i>
+              <ion-label class="ml-1">
+                  <ion-text class="d-block">Age</ion-text>
+                  <ion-text class="d-block">{{ user.age }} years old</ion-text>
+              </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="user.city && user.country" lines="none" class="d-flex align-items-center">
+              <i class="fas fa-map-marker-alt font-icon"></i>
+              <ion-label class="" style="margin-left: 5px;" text-wrap>
+                  <ion-text class="d-block">Lives in</ion-text>
+                  <ion-text class="d-block">{{ user.country }}, {{ user.city }}</ion-text>
+              </ion-label>
+          </ion-item>
+      </ion-list>
+
+
+      <div>
+        <ion-text color="primary"><i class="fas fa-school mr-2"></i> School</ion-text>
+        <ion-item lines="none" class="ml-2 mb-2">
+            <ion-label class="ml-2 text-capitalize">
+                {{ user.school ? user.school : 'undefined' }}
+            </ion-label>
+        </ion-item>
+      </div>
+
+      <div>
+        <ion-text color="primary"><i class="fas fa-graduation-cap mr-2"></i> Education</ion-text>
+        <ion-item lines="none" class="ml-2 mb-2">
+            <ion-label class="ml-2 text-capitalize">
+                <span>{{ user.education ? user.education : 'undefined' }}</span>
+            </ion-label>
+        </ion-item>
+      </div>
+
+      <div class=" mt-2">
+        <ion-text color="primary"><i class="fas fa-briefcase mr-2"></i> Profession</ion-text>
+        <ion-item lines="none" class="ml-2 mb-2">
+            <ion-label class="ml-2 text-capitalize" >
+                {{ user.profession ? user.profession : 'undefined' }}
+            </ion-label>
+        </ion-item>
+      </div>
+
+      <div>
+        <ion-text color="primary" class="mt-3"><i class="fas fa-heart mr-2"></i> Intersets</ion-text>
+        <ion-item lines="none" class="ml-2 mb-2" *ngIf="!user.interests || !user.interests.length">
+          <ion-label class="ml-2 text-capitalize">
+              <span>no interests</span>
+          </ion-label>
+        </ion-item>
+
+        <ion-row *ngIf="user.interests && user.interests.length">
+          <ion-col class="text-center ion-no-padding p-0" size="auto" *ngFor="let interest of user.interests">
+            <ion-card class="text-center p-2 interest">
+              <span>{{ interest }}</span>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </div>
+  </div>
+
+
+  <div class="h-100 d-flex align-items-center" *ngIf="!user && !pageLoading">
+    <div class="w-100 text-center px-4">
+      <img src="./../../../../assets/images/svgs/not-found.svg" alt="">
+      <span class="empty-alert d-block mt-4">this profile is unavailable</span>
+    </div>
+  </div>
+
+</ion-content>

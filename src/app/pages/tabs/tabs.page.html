@@ -1,0 +1,10 @@
+<ion-tabs>
+  <ion-tab-bar color="light" slot="bottom">
+    <ion-tab-button
+      *ngFor="let tab of tabs"
+      [tab]="tab.url"
+    >
+      <i [class]="'icon ' + tab.icon"></i>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

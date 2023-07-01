@@ -1,0 +1,19 @@
+
+.image-container{
+  height: 250px;
+  position: relative;
+  background-color: #ccc;
+  overflow: hidden;
+}
+
+.product-title{
+  font-size: 18px;
+}
+
+.sold-image{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  width: 150px;
+}

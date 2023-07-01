@@ -1,0 +1,37 @@
+
+ion-input{
+  --padding-bottom: 0px;
+  padding-bottom: 0px;
+}
+ion-label{
+  --padding-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+ion-textarea{
+  --padding-start: 0px;
+  --padding-end: 0px;
+  --padding-top: 0px;
+  --padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+ion-item.gender-item:hover{
+  --background: rgb(0, 0, 0);
+}
+.country-btn{
+  font-size: 16px;
+}
+.interest{
+  color: #000;
+}
+.btn-placeholder{
+  font-weight: 300;
+  font-size: 15px;
+}
+.text-disabled{
+  color: #aaa;
+}

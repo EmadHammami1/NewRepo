@@ -1,0 +1,79 @@
+<app-header [title]="product ? product.label : ''" [back]="true">
+  <div id="end-buttons">
+    <ion-button
+      shape="round"
+      *ngIf="product && user && product.user.id != user.id"
+      (click)="presentPopover($event)"
+    >
+      <i class="fas fa-ellipsis-v"></i>
+    </ion-button>
+  </div>
+</app-header>
+
+<app-loader *ngIf="pageLoading"></app-loader>
+
+<ion-content *ngIf="!pageLoading">
+
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200"  (ionRefresh)="getProduct($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="product">
+    <div class="position-relative">
+      <div class="w-100 image-container">
+        <img *ngIf="product.sold" class="sold-image" src="../../../../../assets/images/sold.png" alt="">
+        <app-img-loader
+          [src]="product.photo"
+        >
+        </app-img-loader>
+      </div>
+      <ion-fab horizontal="end" vertical="bottom" class="mt-5" *ngIf="product.user.id == user.id">
+        <ion-fab-button (click)="removeConfirmation()" color="danger">
+            <ion-icon name="trash"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+    <ion-item>
+      <ion-label class="ml-2">
+        <span class="product-title font-weight-bold d-block">{{ product.label }} </span>
+        <span class="">{{ product.price }} {{ product.currency }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ml-2">
+        <span class="product-title font-weight-bold d-block">Location </span>
+        <span class="">{{ product.country }} {{ product.city }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="ml-2" text-wrap>
+        <span class="product-title font-weight-bold d-block">Description</span>
+        <span>{{ product.description }}</span>
+      </ion-label>
+    </ion-item>
+  </div>
+</ion-content>
+
+<ion-footer class="px-3"*ngIf="product">
+    <ion-button
+      expand="block"
+      size="default"
+      color="primary"
+      *ngIf="product.user.id != user.id"
+      [routerLink]="['/messages/chat/' + product.user.id]"
+      [queryParams]="{
+        business: true
+      }"
+    >
+      Chat with seller
+    </ion-button>
+    <ion-button
+      expand="block"
+      size="default"
+      color="primary"
+      (click)="markAsSold()"
+      *ngIf="product.user.id == user.id && !product.sold"
+    >
+      {{ 'Mark as sold' }}
+    </ion-button>
+</ion-footer>

@@ -1,0 +1,53 @@
+.image-container{
+  overflow: hidden;
+  position: relative;
+}
+
+@media only screen and (min-width: 300px) {
+  .image-container{
+    max-height: 600px;
+  }
+}
+
+@media only screen and (min-width: 300px) {
+  .image-container{
+    max-height: 1100px;
+  }
+}
+
+.panel{
+  background-color: rgb(var(--ion-color-secondary-rgb));
+}
+.user-info{
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.font-icon{
+  margin-right: 30px;
+  margin-left: 4px;
+  font-size: 19px;
+}
+.interest{
+  color: #000;
+}
+.header{
+  --ion-background-color: rgba(0, 0, 0, 0.6)!important;
+  color: white;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+.header-text{
+  font-size: 20px;
+}
+.user-name{
+  font-size: 20px;
+}
+.star-icon{
+  font-size: 23px;
+  color: red;
+}

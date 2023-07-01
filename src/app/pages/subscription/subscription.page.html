@@ -1,0 +1,70 @@
+<app-header
+  title="Subscription Plans"
+  [back]="true"
+>
+  <div id="end-buttons" >
+    <ion-button
+      *ngIf="subscription"
+      [routerLink]="['/tabs/subscription/pay']"
+      [queryParams]="{
+        subscription_id: subscription.id,
+        price: prices[selectedPrice].price,
+        duration: prices[selectedPrice].duration
+      }"
+      class="d-none d-md-block"
+      color="primary"
+      size="large"
+    >
+      Continue
+    </ion-button>
+  </div>
+</app-header>
+
+<app-loader *ngIf="loading"></app-loader>
+
+<ion-content>
+  <div class="h-100 flex flex-column px-4" *ngIf="!loading && subscription && user">
+    <div class="text-center px-3 pb-3" *ngIf="user && user.subscription">
+      <span class="d-block">Your current subscription will expire after</span>
+      <span class="d-block expireDate">{{ userExpireDate() }}</span>
+    </div>
+    <div class="row">
+        <div class="col-12 py-2 py-sm-1 col-sm-6 col-md-4" *ngFor="let offer of subscription.offers">
+          <span class="offer-item">
+            <i class="far fa-check-circle mr-2"></i> {{ offer }}
+          </span>
+        </div>
+    </div>
+    <div class="flex-grow py-3 w-100">
+      <ion-row class="mt-2 ion-justify-content-center w-100">
+        <ion-col
+          [size]="4"
+          [sizeMd]="2"
+          class="bg-light text-center p-2 m-3 price-card"
+          [class.selectedPrice]="ind == selectedPrice"
+          (click)='selectedPrice = ind'
+          *ngFor="let price of prices; let ind = index"
+        >
+          <span *ngIf="ind == selectedPrice" class="selected-label-container text-center w-100">
+            <span class="selected-label px-2 py-1">Selected</span>
+          </span>
+          <span class="duration1 d-block">1</span>
+          <small class="duration2 d-block">{{ price.duration }}</small>
+          <span class="price d-inline d-block">{{ price.price }}</span>
+          <ion-text color="primary" class="font-weight-bold" *ngIf="ind">save {{ savedPrice(ind) }}%</ion-text>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div class="d-flex justify-content-center">
+      <ion-button
+        *ngIf="subscription"
+        (click)="pay()"
+        class="d-md-none"
+        color="primary"
+        size="large"
+      >
+        Continue
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,75 @@
+<ion-card
+  [style]="{'--background': post.backgroundColor, '--color': post.color}"
+  class="mb-0 p-2"
+>
+  <div class="d-flex justify-content-between">
+    <div [style]="{'--color': post.color}">
+      <span (click)="showUserProfile(post.user.id)">
+        <span class="mr-1" *ngIf="post.anonyme"><i class="fas fa-user-secret"></i></span>
+        <span class="mr-1" *ngIf="!post.anonyme"><i class="fas fa-user"></i></span>
+        {{ postUserName(post) }}
+      </span>
+      <small class="date">
+        {{ post.createdAt | extractDiffTime }}
+      </small>
+      <div class="pl-2 pr-2 py-2">
+        <span>{{ post.text }}</span>
+      </div>
+    </div>
+    <div class="pr-2">
+        <ion-button
+        shape="round"
+        class="d-block ion-no-margin ion-no-padding"
+        [style]="{'--color': post.color}"
+        fill="clear"
+        size="small"
+        (click)="presentPopover($event)"
+      >
+        <i class="fas fa-ellipsis-v"></i>
+      </ion-button>
+      <ion-button
+        shape="round"
+        class="d-block ion-no-margin ion-no-padding px-1"
+        [style]="{'--color': post.color}"
+        fill="clear"
+        size="small"
+        (click)="voteOnPost(1)"
+      >
+        <i class="fas fa-chevron-up"></i>
+      </ion-button>
+      <ion-button
+        shape="round"
+        class="d-block ion-no-margin ion-no-padding px-1"
+        [style]="{'--color': post.color}"
+        fill="clear"
+        size="small"
+        disabled
+      >
+        <span class="font-weight-bold">{{ post.votes }}</span>
+      </ion-button>
+      <ion-button
+        shape="round"
+        class="d-block ion-no-margin ion-no-padding px-1"
+        [style]="{'--color': post.color}"
+        fill="clear"
+        size="small"
+        (click)="voteOnPost(-1)"
+      >
+        <i class="fas fa-chevron-down"></i>
+      </ion-button>
+    </div>
+  </div>
+
+  <ion-button
+    size="small"
+    class="d-block ion-no-margin ion-no-padding"
+    shape="round"
+    fill="clear"
+    [style]="{'color': post.color}"
+    (click)="showComments()"
+    *ngIf="showCommentsBtn"
+  >
+    <i class="far fa-comments mr-1"></i>
+    <span>{{ post.comments.length }} comments</span>
+  </ion-button>
+</ion-card>
