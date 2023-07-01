@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\pages",
+    "\\src\\app\\pages\\messages",
+    "\\src\\app\\pages\\messages\\chat",
+    "\\src\\app\\pages\\privacy-policy",
+    "\\src\\app\\pages\\profile",
+    "\\src\\app\\pages\\profile\\display",
+    "\\src\\app\\pages\\profile\\form"
+  ],
+  "SelectedNode": "\\src\\app\\pages\\new-friends\\new-friends.page.scss",
+  "PreviewInSolutionExplorer": false
+}
